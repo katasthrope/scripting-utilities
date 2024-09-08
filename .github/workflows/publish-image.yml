@@ -9,7 +9,21 @@ on:
     # workflow_dispatch:
 
 jobs:
+  repository-check:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Create Docker repository if not exists
+        run: |
+          REPO_EXISTS=$(curl -s -o /dev/null -w "%{http_code}" -u "${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_PASSWORD }}" "https://hub.docker.com/v2/repositories/${{ vars.REGISTRY_IMAGE }}")
+          if [ "$REPO_EXISTS" -eq 404 ]; then
+            curl -s -X POST "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/" \
+              -u "${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_PASSWORD }}" \
+              -H "Content-Type: application/json" \
+              -d '{"namespace": "${{ secrets.DOCKER_USERNAME }}", "name": "${{ github.event.repository.name }}"", "is_private": false}'
+          fi
+
   build:
+    needs: repository-check
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -50,7 +64,6 @@ jobs:
           platforms: ${{ matrix.platform }}
           labels: ${{ steps.meta.outputs.labels }}
           outputs: type=image,name=${{ vars.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
-          push-args: --public
 
       - name: Export digest
         run: |
