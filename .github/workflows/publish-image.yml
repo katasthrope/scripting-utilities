@@ -9,21 +9,7 @@ on:
     # workflow_dispatch:
 
 jobs:
-  repository-check:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Create Docker repository if not exists
-        run: |
-          REPO_EXISTS=$(curl -s -o /dev/null -w "%{http_code}" -u "${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_PASSWORD }}" "https://hub.docker.com/v2/repositories/${{ vars.REGISTRY_IMAGE }}")
-          if [ "$REPO_EXISTS" -eq 404 ]; then
-            curl -s -X POST "https://hub.docker.com/v2/repositories/${{ secrets.DOCKER_USERNAME }}/" \
-              -u "${{ secrets.DOCKER_USERNAME }}:${{ secrets.DOCKER_PASSWORD }}" \
-              -H "Content-Type: application/json" \
-              -d '{"namespace": "${{ secrets.DOCKER_USERNAME }}", "name": "${{ github.event.repository.name }}"", "is_private": false}'
-          fi
-
   build:
-    needs: repository-check
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false
@@ -115,3 +101,21 @@ jobs:
       - name: Inspect image
         run: |
           docker buildx imagetools inspect ${{ vars.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}
+
+  push-readme:
+    runs-on: ubuntu-22.04
+    name: Push README to Docker Hub
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: push README to Dockerhub
+        uses: christian-korneck/update-container-description-action@v1
+        env:
+          DOCKER_USER: ${{ vars.DOCKERHUB_USERNAME }}
+          DOCKER_PASS: ${{ secrets.DOCKERHUB_TOKEN }}
+        with:
+          destination_container_repo: ${{ vars.REGISTRY_IMAGE }}
+          provider: dockerhub
+          short_description: 'Scripting utilities is an image containing various but basic tools'
+          readme_file: 'README.md'
