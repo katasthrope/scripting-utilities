@@ -25,7 +25,7 @@ jobs:
   sh_lint:
     runs-on: ubuntu-22.04
     container:
-      image: koalaman/shellcheck:v0.10.0
+      image: koalaman/shellcheck-alpine:v0.10.0
     env:
       SCRIPTS_PATH: "Scripts"
     steps:
