@@ -1,4 +1,4 @@
-FROM 5.2.32-alpine3.20
+FROM bash:5.2.32-alpine3.20
 
 RUN mkdir /scripts
 COPY scripts/* /scripts/
