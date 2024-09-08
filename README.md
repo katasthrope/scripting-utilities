@@ -10,6 +10,6 @@ Aside from built in tools provided from bash alpine image such as sed, wget, etc
 | curl     | 8.9.1   |
 | openssl  | 3.3.2   |
 
-# Example Usage
-Running `jq --version`<br>
+# Usage
+Running `jq`<br>
 ```docker run --rm -it  katasthrope/scripting-utilities jq --version```

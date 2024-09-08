@@ -17,7 +17,7 @@ jobs:
       DOCKERFILE_PATH: "Dockerfile"
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Check Dockerfile Lint
       run: |
@@ -31,7 +31,7 @@ jobs:
       SCRIPTS_PATH: "scripts"
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Check Scripts
       run: shellcheck ${SCRIPTS_PATH}/*.sh
