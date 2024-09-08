@@ -4,3 +4,10 @@ on:
   push:
     tags:
       - '*.*.*'
+
+jobs:
+  echo:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: placeholder
+      run: echo "hello"
