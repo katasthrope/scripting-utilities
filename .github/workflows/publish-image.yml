@@ -1,0 +1,6 @@
+name: Publish Dockerhub
+
+on:
+  push:
+    tags:
+      - '*.*.*'

@@ -1,0 +1,22 @@
+name: PR Check
+
+on:
+  push:
+    branches:
+      - feature/*
+      - fix/*
+      - dev/*
+
+jobs:
+  dockerfile_lint:
+    runs-on: ubuntu-22.04
+    container:
+      image: hadolint/hadolint:v2.12.0-alpine
+    env:
+      DOCKERFILE_PATH: "Dockerfile"
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Check Dockerfile Lint
+      uses: hadolint $DOCKERFILE_PATH || true
