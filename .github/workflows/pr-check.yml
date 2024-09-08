@@ -27,10 +27,10 @@ jobs:
     container:
       image: koalaman/shellcheck-alpine:v0.10.0
     env:
-      SCRIPTS_PATH: "Scripts"
+      SCRIPTS_PATH: "scripts"
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
 
     - name: Check Scripts
-      run: ${SCRIPTS_PATH}/*.sh
+      run: shellcheck ${SCRIPTS_PATH}/*.sh
