@@ -1,11 +1,16 @@
 name: PR Check
 
+# on:
+#   push:
+#     branches:
+#       - feature/*
+#       - fix/*
+#       - dev/*
 on:
-  push:
-    branches:
-      - feature/*
-      - fix/*
-      - dev/*
+  pull_request:
+    branches: [ "main" ]
+  merge_group:
+    types: [checks_requested]
 
 jobs:
   dockerfile_lint:
