@@ -1,7 +1,8 @@
 # Scripting-utilities
-a container image with various utilities tool based on bash 5 and alpine 3.20
+A container image with various utilities tool based on alpine 3.20 and bash 5
 
-Aside from built in tools provided from bash alpine image such as sed, wget, etc. Here's a list of available tools that is added:
+Aside from built in tools provided from bash alpine image such as sed, wget, etc. <br>
+Here's a list of available tools that are added:
 
 | Tool     | Version |
 |----------|---------|
@@ -10,6 +11,10 @@ Aside from built in tools provided from bash alpine image such as sed, wget, etc
 | curl     | 8.9.1   |
 | openssl  | 3.3.2   |
 
-# Usage
-Running `jq`<br>
-```docker run --rm -it  katasthrope/scripting-utilities jq --version```
+# Example Usages
+
+Running in interactive <br>
+```docker run --rm -it katasthrope/scripting-utilities bash```
+
+Running jq <br>
+```docker run --rm katasthrope/scripting-utilities jq --version```
